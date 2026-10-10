@@ -32,8 +32,12 @@
       "Name: " + data.get("name").trim(),
       "Phone: " + data.get("phone").trim()
     ];
+    var email = data.get("email").trim();
+    if (email) lines.push("Email: " + email);
     var address = data.get("address").trim();
     if (address) lines.push("Address: " + address);
+    lines.push("Property: " + data.get("property"));
+    lines.push("How often: " + data.get("frequency"));
     if (services.length) lines.push("Services: " + services.join(", "));
     var notes = data.get("notes").trim();
     if (notes) lines.push("Notes: " + notes);
