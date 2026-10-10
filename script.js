@@ -3,13 +3,27 @@
 (function () {
   var PHONE = "+15129473460";
 
-  var form = document.getElementById("quote-form");
+  var form = document.getElementById("quote");
   var errorEl = document.getElementById("form-error");
   var fallback = document.getElementById("fallback");
   var fallbackMsg = document.getElementById("fallback-msg");
   var copyBtn = document.getElementById("copy-msg");
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Mobile menu
+  var toggle = document.querySelector(".menu-toggle");
+  var nav = document.getElementById("nav");
+  toggle.addEventListener("click", function () {
+    var open = nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  nav.addEventListener("click", function (event) {
+    if (event.target.tagName === "A") {
+      nav.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
 
   function buildMessage(data) {
     var services = data.getAll("service");
