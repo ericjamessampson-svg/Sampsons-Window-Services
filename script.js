@@ -39,8 +39,6 @@
     lines.push("Property: " + data.get("property"));
     lines.push("How often: " + data.get("frequency"));
     if (services.length) lines.push("Services: " + services.join(", "));
-    var notes = data.get("notes").trim();
-    if (notes) lines.push("Notes: " + notes);
     return lines.join("\n");
   }
 
