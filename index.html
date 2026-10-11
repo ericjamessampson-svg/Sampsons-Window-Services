@@ -39,6 +39,7 @@
     <div class="ticker-track">
       <ul>
         <li>Kyle &amp; Greater Austin, TX</li>
+        <li>5-star rated on Google</li>
         <li>Streak-free guarantee</li>
         <li>Fully insured</li>
         <li>Free quotes</li>
@@ -46,6 +47,7 @@
       </ul>
       <ul aria-hidden="true">
         <li>Kyle &amp; Greater Austin, TX</li>
+        <li>5-star rated on Google</li>
         <li>Streak-free guarantee</li>
         <li>Fully insured</li>
         <li>Free quotes</li>
@@ -102,7 +104,7 @@
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="badge"><span class="badge-pill">Insured</span> 100% streak-free guarantee</p>
+          <p class="badge"><span class="badge-pill">Excellent</span> <span class="stars" aria-hidden="true">★★★★★</span> <span>5.0 rating on</span> <span class="google" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span></p>
           <h1><span>Dirty windows?</span> <span class="accent">We can fix that.</span></h1>
           <p class="lede">Window cleaning and exterior washing for homes in Kyle, Austin and the Hill Country. Local, careful work that keeps your home looking its best.</p>
           <div class="hero-actions">
@@ -163,21 +165,17 @@
             </div>
           </fieldset>
           <fieldset class="field">
-            <legend>How often?</legend>
+            <legend>Preferred frequency</legend>
             <div class="chips">
-              <label><input type="radio" name="frequency" value="One-time" checked><span>One-Time</span></label>
-              <label><input type="radio" name="frequency" value="Quarterly"><span>Quarterly</span></label>
               <label><input type="radio" name="frequency" value="Tri-annual (3x a year)"><span>Tri-Annual</span></label>
-              <label><input type="radio" name="frequency" value="Twice a year"><span>Twice a Year</span></label>
+              <label><input type="radio" name="frequency" value="Quarterly" checked><span>Quarterly</span></label>
+              <label><input type="radio" name="frequency" value="Bi-monthly (every 2 months)"><span>Bi-Monthly</span></label>
+              <label><input type="radio" name="frequency" value="One-time"><span>One-Time</span></label>
             </div>
           </fieldset>
-          <div class="field">
-            <label for="q-notes">Anything else? <span class="optional">(optional)</span></label>
-            <textarea id="q-notes" name="notes" rows="2" placeholder="Number of stories, best time to reach you"></textarea>
-          </div>
           <p class="form-error" id="form-error" role="alert" hidden></p>
           <button class="btn btn-primary btn-block" type="submit">Get my free quote</button>
-          <p class="form-note">Opens a text to 512-947-3460 with your details filled in. Just hit send.</p>
+          <p class="form-note">No spam. Opens a text to us with your details filled in.</p>
           <div class="fallback" id="fallback" hidden>
             <p><strong>Texting app didn't open?</strong> Copy this and text it to <a href="sms:+15129473460">512-947-3460</a>.</p>
             <textarea id="fallback-msg" rows="5" readonly></textarea>
@@ -189,10 +187,10 @@
 
     <section class="stats" aria-label="At a glance">
       <div class="wrap stats-grid">
-        <div class="stat"><span class="stat-num">2</span><span class="stat-label">Years in business</span></div>
-        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Streak-free guarantee</span></div>
-        <div class="stat"><span class="stat-num">Insured</span><span class="stat-label">On every job</span></div>
-        <div class="stat"><span class="stat-num">$0</span><span class="stat-label">Free quotes</span></div>
+        <div class="stat"><span class="stat-num">1000+</span><span class="stat-label">Homes cleaned</span></div>
+        <div class="stat"><span class="stat-num">8+</span><span class="stat-label">Years in business</span></div>
+        <div class="stat"><span class="stat-num">5★</span><span class="stat-label">Google rating</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Satisfaction guarantee</span></div>
       </div>
     </section>
 
@@ -259,30 +257,44 @@
     <section class="plans" id="plans">
       <div class="wrap">
         <p class="kicker center">Maintenance plans</p>
-        <h2 class="section-title center">Set it &amp; <span class="accent">forget it</span></h2>
-        <p class="section-lede center">Pick how often you want clean windows and we'll put you on the schedule. No reminders, no calls. We just show up.</p>
+        <h2 class="section-title center">Set it &amp; <span class="accent">forget it.</span></h2>
+        <p class="section-lede center">Pick what works for you and we handle the rest. The more often we clean, the more you save.</p>
         <div class="plan-grid">
-          <article class="plan">
+          <article class="plan plan-light">
+            <h3>Tri-Annually</h3>
+            <span class="plan-rule" aria-hidden="true"></span>
+            <p class="plan-price"><span class="amt">$50</span><span class="per">off per clean</span></p>
+            <ul class="perks">
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>FREE RainBlock treatment</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>100% streak-free guarantee</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>Automatic scheduling</li>
+            </ul>
+            <a class="btn btn-plan btn-block" href="#quote">Get your quote</a>
+          </article>
+          <article class="plan plan-white">
             <h3>Quarterly</h3>
-            <p class="plan-freq">4 cleanings a year</p>
-            <p>Best for homes with heavy pollen, dust, hard water or pets. Your windows stay clean all year.</p>
-            <a class="btn btn-outline btn-sm" href="#quote">Get a quote</a>
+            <span class="plan-rule" aria-hidden="true"></span>
+            <p class="plan-price"><span class="amt">$100</span><span class="per">off per clean</span></p>
+            <ul class="perks">
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>FREE RainBlock treatment</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>100% streak-free guarantee</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>Automatic scheduling</li>
+            </ul>
+            <a class="btn btn-plan btn-block" href="#quote">Get your quote</a>
           </article>
           <article class="plan plan-featured">
             <p class="plan-tag">Most popular</p>
-            <h3>Tri-Annual</h3>
-            <p class="plan-freq">3 cleanings a year</p>
-            <p>Spring, summer and fall. Clean glass through the seasons that matter most in Central Texas.</p>
-            <a class="btn btn-primary btn-sm" href="#quote">Get a quote</a>
-          </article>
-          <article class="plan">
-            <h3>Twice a Year</h3>
-            <p class="plan-freq">2 cleanings a year</p>
-            <p>A spring and fall refresh that keeps your windows from ever getting too far gone.</p>
-            <a class="btn btn-outline btn-sm" href="#quote">Get a quote</a>
+            <h3>Bi-Monthly</h3>
+            <span class="plan-rule" aria-hidden="true"></span>
+            <p class="plan-price"><span class="amt">$150</span><span class="per">off per clean</span></p>
+            <ul class="perks">
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>FREE RainBlock treatment</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>100% streak-free guarantee</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3L15 7"/></svg>Automatic scheduling</li>
+            </ul>
+            <a class="btn btn-plan btn-block" href="#quote">Get your quote</a>
           </article>
         </div>
-        <p class="plans-note center">Plan pricing is based on your home. Ask for it in your free quote.</p>
       </div>
     </section>
 
