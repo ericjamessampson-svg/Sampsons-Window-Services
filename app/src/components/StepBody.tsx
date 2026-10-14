@@ -4,7 +4,7 @@ import Link from "next/link";
 import { update } from "@/lib/store";
 import { GENERIC_OBJECTIONS, getTrade } from "@/lib/trades";
 import { niceDate } from "@/lib/dates";
-import { GOAL_HOMES } from "@/lib/samplePlan";
+import { GOAL_HOMES, HOMES_PER_DAY } from "@/lib/samplePlan";
 import type { AppData } from "@/lib/types";
 import type { StepKind } from "@/lib/roadmap";
 
@@ -200,7 +200,12 @@ function PrintCalc({ data }: { data: AppData }) {
               {canBuy! < GOAL_HOMES && " Not enough for all 20 days yet. Start with what you can, and reorder as jobs come in."}
             </p>
           ) : (
-            <p style={{ marginBottom: 0 }}>Add your hanger budget in Settings to see how many you can buy.</p>
+            <p style={{ marginBottom: 0 }}>
+              At that price, {GOAL_HOMES.toLocaleString()} hangers for month 1 would cost about{" "}
+              <strong>${Math.round(each * GOAL_HOMES).toLocaleString()}</strong>, and {(HOMES_PER_DAY).toLocaleString()} for one
+              day about <strong>${Math.round(each * HOMES_PER_DAY).toLocaleString()}</strong>. You can start small and
+              reorder as jobs come in.
+            </p>
           )}
         </div>
       ) : (
