@@ -290,7 +290,7 @@ function WeekCard({ data, today }: { data: AppData; today: string }) {
   const tiles: [string, string][] = [
     ["Hangers", t.hangers.toLocaleString()],
     ["Doors knocked", t.knocked.toLocaleString()],
-    ["Conversations", t.conversations.toLocaleString()],
+    ["Talks", t.conversations.toLocaleString()],
     ["Quotes", t.quotes.toLocaleString()],
     ["Sales", t.sales.toLocaleString()],
     ["Revenue", `$${revenue.toLocaleString()}`],

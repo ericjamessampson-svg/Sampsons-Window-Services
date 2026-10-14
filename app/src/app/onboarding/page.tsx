@@ -207,6 +207,10 @@ export default function Onboarding() {
               />
             </div>
           </label>
+          <div className="card accent small">
+            <strong>We suggest 10,000 door hangers to start.</strong> That&apos;s 500 a day for the first 20 work days.
+            Get a printer&apos;s quote for 10,000 to see what it costs.
+          </div>
         </>
       );
       break;

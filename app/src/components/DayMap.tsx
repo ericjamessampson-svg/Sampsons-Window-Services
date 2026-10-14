@@ -46,7 +46,7 @@ function geocode(q: string) {
   });
 }
 
-const COLORS: Record<Stop["kind"], string> = { hang: "#157a5a", knock: "#c77700" };
+const COLORS: Record<Stop["kind"], string> = { hang: "#0a6db3", knock: "#c77700" };
 
 /** Map of one day's hanging and knocking areas, numbered in time order. */
 export function DayMap({ data, date, height = 360 }: { data: AppData; date: string; height?: number }) {
@@ -113,7 +113,7 @@ export function DayMap({ data, date, height = 360 }: { data: AppData; date: stri
           )
           .addTo(g);
       });
-      if (pts.length > 1) L.polyline(pts, { color: "#157a5a", weight: 3, opacity: 0.6, dashArray: "6 6" }).addTo(g);
+      if (pts.length > 1) L.polyline(pts, { color: "#0a6db3", weight: 3, opacity: 0.6, dashArray: "6 6" }).addTo(g);
       if (pts.length === 1) m.setView(pts[0], 14);
       else if (pts.length > 1) m.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
     });

@@ -163,10 +163,10 @@ function PrintCalc({ data }: { data: AppData }) {
   return (
     <div className="card">
       <h3>What your budget covers</h3>
-      <p className="muted small">
-        Month 1 needs about {GOAL_HOMES.toLocaleString()} hangers. Month 2 repeats the same homes, so plan on about{" "}
-        {(GOAL_HOMES * 2).toLocaleString()} over 2 months.
-      </p>
+      <div className="card accent small">
+        <strong>Our suggestion: start with {GOAL_HOMES.toLocaleString()} hangers.</strong> That&apos;s 500 a day for all
+        20 days of month 1. Reorder for month 2 once jobs come in.
+      </div>
       <p className="small">
         <strong>Ask the printer for:</strong> standard door hangers with a die-cut hole, printed on both sides, on thick
         card stock.

@@ -1,5 +1,5 @@
 // Offline helper: serve fresh pages when online, saved copies when the signal drops.
-const CACHE = "tenk-v2";
+const CACHE = "tenk-v3";
 const PAGES = ["/", "/schedule", "/roadmap", "/plan", "/numbers", "/settings", "/onboarding"];
 
 self.addEventListener("install", (e) => {
