@@ -700,10 +700,6 @@ table.simple th {
   --hang-soft: rgba(21, 122, 90, 0.12);
   --knock: #c77700;
   --knock-soft: rgba(199, 119, 0, 0.13);
-  --job: #2459c9;
-  --job-soft: #e3ebfb;
-  --quote: #7b3fc4;
-  --quote-soft: #efe5fa;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -711,10 +707,6 @@ table.simple th {
     --hang-soft: rgba(95, 191, 159, 0.16);
     --knock: #f0a640;
     --knock-soft: rgba(240, 166, 64, 0.16);
-    --job: #7ea6ff;
-    --job-soft: #1c2a4a;
-    --quote: #c39bf2;
-    --quote-soft: #2e2142;
   }
 }
 .sidebar .brand {
@@ -760,36 +752,6 @@ hr.sep {
 .tile strong {
   font-size: 1.3rem;
   line-height: 1.1;
-}
-.job-row {
-  display: grid;
-  grid-template-columns: 70px 1fr auto;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
-  padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: none;
-  color: var(--text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  margin-bottom: 4px;
-}
-.job-time {
-  display: flex;
-  flex-direction: column;
-  font-weight: 800;
-  border-left: 4px solid var(--job);
-  padding-left: 8px;
-}
-.job-time.quote {
-  border-color: var(--quote);
-}
-.job-time small {
-  font-weight: 500;
-  color: var(--muted);
 }
 .seg {
   display: inline-flex;
@@ -873,12 +835,6 @@ input[type="time"] {
 }
 .legend i.knock {
   background: var(--knock);
-}
-.legend i.job {
-  background: var(--job);
-}
-.legend i.quote {
-  background: var(--quote);
 }
 @media (min-width: 900px) {
   .sched-add {
@@ -1032,48 +988,6 @@ input[type="time"] {
   border-radius: 50%;
   background: var(--danger);
 }
-.cal-job {
-  position: absolute;
-  z-index: 2;
-  border-radius: 8px;
-  padding: 4px 6px;
-  font-size: 0.78rem;
-  line-height: 1.25;
-  background: var(--job-soft);
-  border-left: 4px solid var(--job);
-  color: var(--text);
-  overflow: hidden;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-}
-.cal-job.quote {
-  background: var(--quote-soft);
-  border-color: var(--quote);
-}
-.cal-job.done {
-  opacity: 0.6;
-}
-.cal-job.dragging {
-  z-index: 5;
-  cursor: grabbing;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  outline: 2px solid var(--accent);
-}
-.cal-job span {
-  color: var(--muted);
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cal-job strong {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 /* month */
 .month {
@@ -1138,12 +1052,6 @@ input[type="time"] {
   background: var(--hang-soft);
   color: var(--hang);
   font-weight: 700;
-}
-.pill.job {
-  background: var(--job-soft);
-}
-.pill.quote {
-  background: var(--quote-soft);
 }
 @media (min-width: 900px) {
   .month-cell {
@@ -1218,4 +1126,31 @@ input[type="time"] {
 }
 .stop-dot::before {
   content: counter(stop);
+}
+
+.cal-block.midday {
+  background: var(--surface-2);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.pill.knock {
+  background: var(--knock-soft);
+  color: var(--knock);
+  font-weight: 700;
+}
+.cal-off {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.cal-day.is-selected {
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+.tile .small {
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
 }

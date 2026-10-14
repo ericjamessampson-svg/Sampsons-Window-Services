@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { MonthGrid, TimeGrid, weekDates } from "@/components/Calendar";
-import { useJobEditor } from "@/components/JobEditor";
 import { addDays, niceDate, parseYmd, ymd } from "@/lib/dates";
 import { useData } from "@/lib/store";
 
@@ -30,7 +29,6 @@ function Schedule() {
   const today = ymd(new Date());
   const [date, setDate] = useState(today);
   const [view, setView] = useState<View>("day");
-  const editor = useJobEditor();
 
   // Phones start on Day view, computers on Week view. Remember the last choice.
   useEffect(() => {
@@ -40,8 +38,6 @@ function Schedule() {
     } catch {}
     if (saved === "day" || saved === "week" || saved === "month") setView(saved);
     else if (window.matchMedia("(min-width: 900px)").matches) setView("week");
-    const fromLink = new URLSearchParams(window.location.search).get("date");
-    if (fromLink && /^\d{4}-\d{2}-\d{2}$/.test(fromLink)) setDate(fromLink);
   }, []);
 
   const pickView = (v: View) => {
@@ -88,9 +84,6 @@ function Schedule() {
           </button>
         </div>
         <strong className="sched-label">{label}</strong>
-        <button className="btn primary sched-add" onClick={() => editor.open({ date, start: "14:00" })}>
-          + Add job or quote
-        </button>
       </div>
 
       <div className="sched-cols">
@@ -106,36 +99,24 @@ function Schedule() {
               }}
             />
           ) : (
-            <TimeGrid
-              data={data}
-              dates={dates}
-              today={today}
-              onAdd={(d, start) => editor.open({ date: d, start })}
-              onOpen={(j) => editor.open(j)}
-              onMoved={(j) => editor.checkConflicts(j)}
-              onPickDay={view === "week" ? setDate : undefined}
-            />
+            <TimeGrid data={data} dates={dates} today={today} selected={date} onPickDay={view === "week" ? setDate : undefined} />
           )}
-          <p className="muted small" style={{ marginTop: 8 }}>
-            Tap an open time to add a job or quote. To move a job, drag it (on a phone, press and hold first).
-          </p>
-          <div className="legend">
-            <span><i className="hang" /> Hanging</span>
-            <span><i className="knock" /> Knocking</span>
-            <span><i className="job" /> Job</span>
-            <span><i className="quote" /> Quote</span>
+          <div className="legend" style={{ marginTop: 10 }}>
+            <span>
+              <i className="hang" /> Hanging 500 hangers
+            </span>
+            <span>
+              <i className="knock" /> Knocking yesterday&apos;s streets
+            </span>
           </div>
         </div>
         <aside className="sched-map">
-          <details className="map-box" open>
-            <summary>
-              <strong>Stops on {niceDate(date)}</strong>
-            </summary>
+          <div className="map-box">
+            <strong style={{ display: "block", marginBottom: 10 }}>Route on {niceDate(date)}</strong>
             <DayMap data={data} date={date} />
-          </details>
+          </div>
         </aside>
       </div>
-      {editor.element}
     </div>
   );
 }

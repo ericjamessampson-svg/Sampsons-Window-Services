@@ -3,7 +3,7 @@
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, LayerGroup } from "leaflet";
-import { blocksFor, jobsOn, niceTime } from "@/lib/schedule";
+import { blocksFor, niceTime } from "@/lib/schedule";
 import { update } from "@/lib/store";
 import type { AppData } from "@/lib/types";
 
@@ -11,20 +11,16 @@ export interface Stop {
   key: string; // text we search the map for
   label: string;
   time: string;
-  kind: "hang" | "knock" | "job" | "quote";
+  kind: "hang" | "knock";
 }
 
 export function stopsFor(data: AppData, date: string): Stop[] {
-  const stops: Stop[] = blocksFor(data, date).map((b) => ({
+  return blocksFor(data, date).map((b) => ({
     key: b.planDay.zone.geoQuery,
     label: b.title,
     time: b.start,
     kind: b.kind,
   }));
-  for (const j of jobsOn(data, date)) {
-    if (j.address.trim()) stops.push({ key: j.address.trim(), label: j.customer || "Job", time: j.start, kind: j.kind });
-  }
-  return stops.sort((a, b) => a.time.localeCompare(b.time));
 }
 
 // OpenStreetMap's free address search allows about 1 lookup per second.
@@ -50,9 +46,9 @@ function geocode(q: string) {
   });
 }
 
-const COLORS: Record<Stop["kind"], string> = { hang: "#157a5a", knock: "#c77700", job: "#2459c9", quote: "#7b3fc4" };
+const COLORS: Record<Stop["kind"], string> = { hang: "#157a5a", knock: "#c77700" };
 
-/** Map of one day's stops, numbered in time order. */
+/** Map of one day's hanging and knocking areas, numbered in time order. */
 export function DayMap({ data, date, height = 360 }: { data: AppData; date: string; height?: number }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
@@ -132,13 +128,13 @@ export function DayMap({ data, date, height = 360 }: { data: AppData; date: stri
             <span className="stop-dot" style={{ background: COLORS[s.kind] }} />
             <span>
               <strong>{niceTime(s.time)}</strong> {s.label}
-              {data.geocache[s.key] === null && <span className="muted small"> (address not found on the map)</span>}
+              {data.geocache[s.key] === null && <span className="muted small"> (not found on the map)</span>}
             </span>
           </li>
         ))}
-        {stops.length === 0 && <li className="muted">No stops this day.</li>}
+        {stops.length === 0 && <li className="muted">Day off. No route this day.</li>}
       </ol>
-      {missing.length > 0 && <p className="muted small">Check the spelling of addresses that weren&apos;t found.</p>}
+      {missing.length > 0 && <p className="muted small">Map spots are approximate. Use the start point listed on the Plan screen.</p>}
     </div>
   );
 }

@@ -44,30 +44,8 @@ export interface DailyNumbers {
   conversations: number;
   quotes: number;
   sales: number;
-}
-
-export type JobKind = "job" | "quote";
-
-/** A booked cleaning job or a quote visit on the schedule. */
-export interface Job {
-  id: string;
-  kind: JobKind;
-  customer: string;
-  phone: string;
-  address: string;
-  service: string;
-  price: number | null;
-  notes: string;
-  date: string; // YYYY-MM-DD
-  start: string; // HH:MM, 24h
-  minutes: number;
-  status: "booked" | "done" | "canceled";
-}
-
-/** Start and end of a hanging or knocking block, HH:MM. */
-export interface BlockTimes {
-  start: string;
-  end: string;
+  /** Dollars from sales that day. */
+  revenue: number;
 }
 
 export interface AppData {
@@ -81,9 +59,8 @@ export interface AppData {
   /** date (YYYY-MM-DD) -> checklist item id -> checked */
   checklists: Record<string, Record<string, boolean>>;
   numbers: Record<string, DailyNumbers>;
-  jobs: Job[];
-  /** date -> moved hanging/knocking block times for that day */
-  blockShifts: Record<string, { hang?: BlockTimes; knock?: BlockTimes }>;
+  /** milestone id -> date the owner marked it reached (for ones the app can't count) */
+  milestonesDone: Record<string, string>;
   /** address -> map position (null when the address wasn't found) */
   geocache: Record<string, { lat: number; lon: number } | null>;
 }

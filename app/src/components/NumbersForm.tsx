@@ -3,7 +3,7 @@
 import { update } from "@/lib/store";
 import type { AppData, DailyNumbers } from "@/lib/types";
 
-export const EMPTY_NUMBERS: DailyNumbers = { hangers: 0, knocked: 0, conversations: 0, quotes: 0, sales: 0 };
+export const EMPTY_NUMBERS: DailyNumbers = { hangers: 0, knocked: 0, conversations: 0, quotes: 0, sales: 0, revenue: 0 };
 
 const FIELDS: { key: keyof DailyNumbers; label: string; step: number }[] = [
   { key: "hangers", label: "Hangers hung", step: 100 },
@@ -11,11 +11,12 @@ const FIELDS: { key: keyof DailyNumbers; label: string; step: number }[] = [
   { key: "conversations", label: "Conversations", step: 1 },
   { key: "quotes", label: "Quotes given", step: 1 },
   { key: "sales", label: "Sales (jobs booked)", step: 1 },
+  { key: "revenue", label: "Revenue ($ booked)", step: 50 },
 ];
 
 /** Big +/- buttons for one day's numbers. Saves as you tap. */
 export function NumbersForm({ data, date }: { data: AppData; date: string }) {
-  const n = data.numbers[date] ?? EMPTY_NUMBERS;
+  const n = { ...EMPTY_NUMBERS, ...data.numbers[date] };
   const set = (key: keyof DailyNumbers, value: number) =>
     update((d) => {
       d.numbers[date] = { ...EMPTY_NUMBERS, ...d.numbers[date], [key]: Math.max(0, Math.round(value) || 0) };
@@ -52,7 +53,7 @@ export function totals(data: AppData, filter?: (date: string) => boolean): Daily
   const t = { ...EMPTY_NUMBERS };
   for (const [date, n] of Object.entries(data.numbers)) {
     if (filter && !filter(date)) continue;
-    for (const k of Object.keys(t) as (keyof DailyNumbers)[]) t[k] += n[k] ?? 0;
+    for (const k of Object.keys(t) as (keyof DailyNumbers)[]) t[k] += n[k] || 0;
   }
   return t;
 }

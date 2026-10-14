@@ -21,6 +21,7 @@ const COLS: [keyof DailyNumbers, string][] = [
   ["conversations", "Talks"],
   ["quotes", "Quotes"],
   ["sales", "Sales"],
+  ["revenue", "Revenue $"],
 ];
 
 function Numbers() {
@@ -105,7 +106,7 @@ function Numbers() {
                   <tr key={d} onClick={() => setDate(d)} style={{ cursor: "pointer" }}>
                     <td>{niceDate(d)}</td>
                     {COLS.map(([k]) => (
-                      <td key={k}>{(data.numbers[d][k] ?? 0).toLocaleString()}</td>
+                      <td key={k}>{(data.numbers[d][k] || 0).toLocaleString()}</td>
                     ))}
                   </tr>
                 ))}

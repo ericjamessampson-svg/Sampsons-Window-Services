@@ -4,18 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { CheckMark } from "@/components/Icons";
-import { useJobEditor } from "@/components/JobEditor";
 import { EMPTY_NUMBERS, NumbersForm, totals } from "@/components/NumbersForm";
 import { PlanList, streetsFor } from "@/components/PlanList";
 import { SkipGuideButton } from "@/components/SkipGuide";
 import { dailyChecklist, type CheckItem, type CheckSection } from "@/lib/checklist";
 import { niceDate, weekStart, workDayInfo, ymd } from "@/lib/dates";
-import { homesReached, milestones, revenueByWeek } from "@/lib/milestones";
+import { homesReached, milestones } from "@/lib/milestones";
 import { roadmapSteps } from "@/lib/roadmap";
 import { GOAL_HOMES, HOMES_PER_DAY, PLAN_DAYS, planDayFor, type PlanDay } from "@/lib/samplePlan";
-import { blocksFor, jobEnd, jobsOn, niceTime, toMin } from "@/lib/schedule";
+import { blocksFor, niceTime } from "@/lib/schedule";
 import { update, useData } from "@/lib/store";
-import type { AppData, Job } from "@/lib/types";
+import type { AppData } from "@/lib/types";
 
 export default function HomePage() {
   return (
@@ -35,8 +34,6 @@ function useNow() {
   return now;
 }
 
-const directions = (address: string) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
-
 function greeting(h: number) {
   return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
 }
@@ -44,7 +41,6 @@ function greeting(h: number) {
 function Home() {
   const data = useData()!;
   const now = useNow();
-  const editor = useJobEditor();
   const profile = data.profile!;
   const today = ymd(now);
   const info = workDayInfo(profile.startDate, profile.workDays, now);
@@ -54,7 +50,6 @@ function Home() {
   const knock = showDay > 1 ? planDayFor(showDay - 1).day : null;
   const sections = dailyChecklist(HOMES_PER_DAY);
   const checks = data.checklists[today] ?? {};
-  const jobs = jobsOn(data, today);
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
   const dayLabel = started
@@ -76,50 +71,10 @@ function Home() {
   );
 
   const next = (
-    <NextAction data={data} started={started} showDay={showDay} nextWorkDate={info.nextWorkDate} sections={sections} checks={checks} today={today} nowMin={nowMin} jobs={jobs} />
+    <NextAction data={data} started={started} showDay={showDay} nextWorkDate={info.nextWorkDate} sections={sections} checks={checks} today={today} nowMin={nowMin} />
   );
 
   const glance = <Glance data={data} today={today} hang={hang} knock={knock} upcoming={!started} />;
-
-  const jobsCard = (
-    <div className="card">
-      <div className="row between">
-        <h2 style={{ margin: 0 }}>Today&apos;s jobs and quotes</h2>
-        <Link href={`/schedule?date=${today}`} className="small">
-          Schedule
-        </Link>
-      </div>
-      {jobs.length === 0 ? (
-        <p className="muted" style={{ margin: "10px 0" }}>
-          Nothing booked today yet.
-        </p>
-      ) : (
-        <div style={{ marginTop: 8 }}>
-          {jobs.map((j) => (
-            <button key={j.id} className="job-row" onClick={() => editor.open(j)}>
-              <span className={`job-time ${j.kind}`}>
-                {niceTime(j.start)}
-                <small>{niceTime(jobEnd(j))}</small>
-              </span>
-              <span style={{ minWidth: 0 }}>
-                <strong>{j.customer || "No name"}</strong>
-                {j.status === "done" && <span className="status done" style={{ marginLeft: 6 }}>Done</span>}
-                <br />
-                <span className="muted small">
-                  {j.kind === "quote" ? "Quote" : j.service}
-                  {j.address && ` · ${j.address}`}
-                </span>
-              </span>
-              <span style={{ fontWeight: 700 }}>{j.price != null ? `$${j.price}` : ""}</span>
-            </button>
-          ))}
-        </div>
-      )}
-      <button className="btn block" onClick={() => editor.open({ date: today, start: nextFreeStart(data, today, nowMin) })}>
-        + Add a job or quote
-      </button>
-    </div>
-  );
 
   const week = <WeekCard data={data} today={today} />;
   const progress = <Progress data={data} />;
@@ -131,7 +86,6 @@ function Home() {
           {header}
           {next}
           {glance}
-          {jobsCard}
           <div className="only-phone">
             {week}
             {progress}
@@ -168,21 +122,8 @@ function Home() {
           </div>
         </div>
       </div>
-      {editor.element}
     </>
   );
-}
-
-/** First 30-minute slot from now that's not inside a plan block or job. */
-function nextFreeStart(data: AppData, date: string, nowMin: number): string {
-  const busy = [
-    ...blocksFor(data, date).map((b) => [toMin(b.start), toMin(b.end)]),
-    ...jobsOn(data, date).map((j) => [toMin(j.start), toMin(j.start) + j.minutes]),
-  ];
-  let m = Math.max(8 * 60, Math.ceil(nowMin / 30) * 30);
-  while (m < 20 * 60 && busy.some(([s, e]) => m < e && m + 60 > s)) m += 30;
-  if (m >= 20 * 60) m = 14 * 60;
-  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 }
 
 function NextAction({
@@ -194,7 +135,6 @@ function NextAction({
   checks,
   today,
   nowMin,
-  jobs,
 }: {
   data: AppData;
   started: boolean;
@@ -204,39 +144,8 @@ function NextAction({
   checks: Record<string, boolean>;
   today: string;
   nowMin: number;
-  jobs: Job[];
 }) {
-  // 1. A job happening now or starting within the hour comes first.
-  const soon = jobs.find((j) => j.status === "booked" && toMin(j.start) - 60 <= nowMin && nowMin < toMin(j.start) + j.minutes);
-  if (soon) {
-    const inProgress = nowMin >= toMin(soon.start);
-    return (
-      <div className="card next-card">
-        <div className="kicker">
-          Do this now · {soon.kind === "quote" ? "Quote" : "Job"} at {niceTime(soon.start)}
-        </div>
-        <h2>
-          {inProgress ? "Finish" : "Head to"} {soon.customer || "your next job"}
-        </h2>
-        {soon.address && <p className="small">{soon.address}</p>}
-        {inProgress ? (
-          <button className="btn primary block big" onClick={() => update((d) => void (d.jobs.find((j) => j.id === soon.id)!.status = "done"))}>
-            Mark done
-          </button>
-        ) : soon.address ? (
-          <a className="btn primary block big" href={directions(soon.address)} target="_blank" rel="noreferrer">
-            Get directions
-          </a>
-        ) : (
-          <Link className="btn primary block big" href={`/schedule?date=${today}`}>
-            Open schedule
-          </Link>
-        )}
-      </div>
-    );
-  }
-
-  // 2. Before Day 1: work through the roadmap.
+  // 1. Before Day 1: work through the roadmap.
   if (!started && showDay === 1) {
     const steps = roadmapSteps(data.profile);
     const i = steps.findIndex((s) => !data.roadmap[s.id]?.done);
@@ -265,20 +174,20 @@ function NextAction({
     );
   }
 
-  // 3. Day off.
+  // 2. Day off.
   if (!started) {
     return (
       <div className="card next-card calm">
         <div className="kicker">Do this now</div>
         <h2>Rest up. Next is Day {((showDay - 1) % PLAN_DAYS) + 1} on {niceDate(nextWorkDate)}.</h2>
-        <Link className="btn primary block big" href="/schedule">
-          Text back quotes and book jobs
-        </Link>
+        <p className="small" style={{ margin: 0 }}>
+          Good time to text back quotes and load hangers for next time.
+        </p>
       </div>
     );
   }
 
-  // 4. Work day: the next checklist item for this time of day.
+  // 3. Work day: the next checklist item for this time of day.
   const key = (s: CheckSection, i: CheckItem) => `${s.id}.${i.id}`;
   const open = sections.flatMap((s) => s.items.filter((i) => !checks[key(s, i)]).map((i) => ({ s, i })));
   if (open.length === 0) {
@@ -377,7 +286,7 @@ function Glance({ data, today, hang, knock, upcoming }: { data: AppData; today: 
 function WeekCard({ data, today }: { data: AppData; today: string }) {
   const wk = weekStart(today);
   const t = totals(data, (d) => weekStart(d) === wk);
-  const revenue = revenueByWeek(data)[wk] ?? 0;
+  const revenue = t.revenue;
   const tiles: [string, string][] = [
     ["Hangers", t.hangers.toLocaleString()],
     ["Doors knocked", t.knocked.toLocaleString()],
@@ -403,7 +312,7 @@ function WeekCard({ data, today }: { data: AppData; today: string }) {
         ))}
       </div>
       <p className="muted small" style={{ margin: "8px 0 0" }}>
-        Revenue counts booked jobs on your schedule this week.
+        Enter sales and revenue in today&apos;s numbers each night.
       </p>
     </div>
   );
@@ -442,6 +351,15 @@ function Progress({ data }: { data: AppData }) {
           <p className="muted small" style={{ margin: 0 }}>
             {next.hint}
           </p>
+          {next.manual && (
+            <button
+              className="btn"
+              style={{ marginTop: 10 }}
+              onClick={() => update((d) => void ((d.milestonesDone ??= {})[next.id] = ymd(new Date())))}
+            >
+              I reached this
+            </button>
+          )}
         </>
       ) : (
         <h3 style={{ margin: "6px 0 0" }}>All milestones reached.</h3>
