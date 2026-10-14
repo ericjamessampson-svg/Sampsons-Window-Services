@@ -18,6 +18,9 @@ export function emptyData(): AppData {
     planEdits: {},
     checklists: {},
     numbers: {},
+    jobs: [],
+    blockShifts: {},
+    geocache: {},
   };
 }
 

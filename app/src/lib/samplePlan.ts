@@ -13,6 +13,8 @@ export interface Zone {
   id: string;
   name: string;
   area: string;
+  /** Search text used to place this zone on the map. */
+  geoQuery: string;
   /** What published sources say about the number of homes. */
   homeCount: string;
   /** Low end of published counts, or null when no count was confirmed. */
@@ -30,6 +32,7 @@ export const ZONES: Zone[] = [
     id: "6creeks",
     name: "6 Creeks (large-lot side)",
     area: "Kyle",
+    geoQuery: "6 Creeks, Kyle, TX",
     homeCount:
       "Whole community: about 2,000–2,100 homes at build-out, most on lots under 1/5 acre. The number of homes on the larger 70–80 ft lots was not found.",
     confirmedLow: null,
@@ -47,6 +50,7 @@ export const ZONES: Zone[] = [
     id: "circlec",
     name: "Circle C Ranch",
     area: "Southwest Austin",
+    geoQuery: "Circle C Ranch, Austin, TX",
     homeCount: "About 4,000 single-family homes (LRG Realty, 2025) to 5,620+ (Wikipedia). Sources disagree.",
     confirmedLow: 4000,
     days: 8,
@@ -64,6 +68,7 @@ export const ZONES: Zone[] = [
     id: "shadyhollow",
     name: "Shady Hollow",
     area: "Southwest Austin",
+    geoQuery: "Shady Hollow, TX",
     homeCount:
       "About 1,500 houses (neighborhood guide). The 2020 Census counted 1,752 households in the Shady Hollow census area.",
     confirmedLow: 1500,
@@ -80,6 +85,7 @@ export const ZONES: Zone[] = [
     id: "vwo",
     name: "Village at Western Oaks",
     area: "Southwest Austin",
+    geoQuery: "Village at Western Oaks, Austin, TX",
     homeCount: "About 1,600 homes (neighborhood guides).",
     confirmedLow: 1600,
     days: 3,
@@ -95,6 +101,7 @@ export const ZONES: Zone[] = [
     id: "belterra",
     name: "Belterra",
     area: "Dripping Springs",
+    geoQuery: "Belterra, Hays County, TX",
     homeCount:
       "About 3,000 homes planned at build-out (LRG Realty, 2026). That is a projection; the number already built was not found.",
     confirmedLow: null,
@@ -111,6 +118,7 @@ export const ZONES: Zone[] = [
     id: "headwaters",
     name: "Headwaters",
     area: "Dripping Springs",
+    geoQuery: "Headwaters Boulevard, Dripping Springs, TX",
     homeCount: "About 1,000–1,100 homes at full build-out (listings). Some lots are still being built.",
     confirmedLow: 1000,
     days: 2,
@@ -126,6 +134,7 @@ export const ZONES: Zone[] = [
     id: "caliterra",
     name: "Caliterra",
     area: "Dripping Springs",
+    geoQuery: "Caliterra Parkway, Dripping Springs, TX",
     homeCount:
       "About 575 homes built of 616 first planned, plus 232 more in The Ranch at Caliterra (Luxe Homes Austin). Another source says 500–600 total.",
     confirmedLow: 575,

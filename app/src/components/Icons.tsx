@@ -43,3 +43,16 @@ export const CheckMark = () => (
     <path d="M20 6L9 17l-5-5" />
   </svg>
 );
+export const HomeIcon = () => (
+  <svg {...base}>
+    <path d="M3 10.5L12 3l9 7.5" />
+    <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+  </svg>
+);
+export const CalendarIcon = () => (
+  <svg {...base}>
+    <rect x="3" y="4.5" width="18" height="16.5" rx="2.5" />
+    <path d="M3 9.5h18M8 2.5v4M16 2.5v4" />
+    <path d="M7.5 13.5h3v3h-3z" />
+  </svg>
+);
