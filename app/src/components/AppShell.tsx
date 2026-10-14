@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useData } from "@/lib/store";
-import { NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, TodayIcon } from "./Icons";
+import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon } from "./Icons";
 
 const NAV = [
-  { href: "/", label: "Today", Icon: TodayIcon },
+  { href: "/", label: "Home", Icon: HomeIcon },
+  { href: "/schedule", label: "Schedule", Icon: CalendarIcon },
   { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon },
   { href: "/plan", label: "Plan", Icon: PlanIcon },
-  { href: "/numbers", label: "Numbers", Icon: NumbersIcon },
+  { href: "/numbers", label: "Numbers", Icon: NumbersIcon, desktopOnly: true },
   { href: "/settings", label: "Settings", Icon: SettingsIcon },
 ];
 
@@ -28,7 +29,11 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
   return (
     <div className="shell">
       <nav className="sidebar" aria-label="Main">
-        <div className="brand">10K Homes</div>
+        <div className="brand">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/icon-192.png" alt="" width={30} height={30} />
+          10K Homes
+        </div>
         {NAV.map(({ href, label, Icon }) => (
           <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
             <Icon />
@@ -40,7 +45,7 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
         {data === null || needsOnboarding ? <p className="muted">Loading…</p> : children}
       </main>
       <nav className="tabbar" aria-label="Main">
-        {NAV.map(({ href, label, Icon }) => (
+        {NAV.filter((n) => !n.desktopOnly).map(({ href, label, Icon }) => (
           <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
             <Icon />
             {label}

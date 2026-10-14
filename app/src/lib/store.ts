@@ -18,6 +18,8 @@ export function emptyData(): AppData {
     planEdits: {},
     checklists: {},
     numbers: {},
+    milestonesDone: {},
+    geocache: {},
   };
 }
 

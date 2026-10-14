@@ -44,6 +44,8 @@ export interface DailyNumbers {
   conversations: number;
   quotes: number;
   sales: number;
+  /** Dollars from sales that day. */
+  revenue: number;
 }
 
 export interface AppData {
@@ -57,4 +59,8 @@ export interface AppData {
   /** date (YYYY-MM-DD) -> checklist item id -> checked */
   checklists: Record<string, Record<string, boolean>>;
   numbers: Record<string, DailyNumbers>;
+  /** milestone id -> date the owner marked it reached (for ones the app can't count) */
+  milestonesDone: Record<string, string>;
+  /** address -> map position (null when the address wasn't found) */
+  geocache: Record<string, { lat: number; lon: number } | null>;
 }
