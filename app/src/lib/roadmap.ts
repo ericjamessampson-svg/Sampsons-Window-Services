@@ -141,11 +141,13 @@ export function roadmapSteps(profile: Profile | null): Step[] {
     {
       id: "print",
       title: "Print your hangers",
-      why: "Month 1 needs about 10,000 hangers. Month 2 repeats the same homes.",
+      why: "We suggest ordering 10,000 hangers to start. That covers all 20 days of month 1 (500 a day).",
       tasks: [
-        "Get quotes from 2 or 3 printers (online or local) for 5,000 and 10,000 hangers",
+        "Get quotes from 2 or 3 printers (online or local) for 10,000 hangers",
+        "Order 10,000 to start. Bigger orders usually cost less per hanger, so compare the quotes.",
         "Enter the best quote below to see what your budget covers",
         "Order a small proof first if you can, to check the phone number and QR code",
+        "Reorder for month 2 once jobs start coming in. Month 2 repeats the same homes.",
       ],
     },
     {

@@ -1,13 +1,13 @@
 :root {
-  --bg: #f4f6f5;
+  --bg: #eaf4fc;
   --surface: #ffffff;
-  --surface-2: #eef2f0;
-  --line: #d5ddd9;
-  --text: #0d1f1a;
-  --muted: #52635d;
-  --accent: #157a5a;
+  --surface-2: #e2eef9;
+  --line: #c8dcee;
+  --text: #0b1f33;
+  --muted: #4a6177;
+  --accent: #0a6db3;
   --accent-text: #ffffff;
-  --accent-soft: #dff2ea;
+  --accent-soft: #d4eafb;
   --gold: #f4c95d;
   --gold-soft: #fdf3d6;
   --gold-ink: #4a3500;
@@ -20,15 +20,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b1512;
-    --surface: #13221d;
-    --surface-2: #1a2d27;
-    --line: #29433a;
-    --text: #f2f7f5;
-    --muted: #a6bab3;
-    --accent: #5fbf9f;
-    --accent-text: #062018;
-    --accent-soft: #173a2f;
+    --bg: #0a1622;
+    --surface: #102233;
+    --surface-2: #16304a;
+    --line: #234766;
+    --text: #eef6fc;
+    --muted: #a3bccf;
+    --accent: #7cc4f5;
+    --accent-text: #04223a;
+    --accent-soft: #12385a;
     --gold-soft: #3a2f10;
     --gold-ink: #f4c95d;
     --danger: #ff8a80;
@@ -696,15 +696,15 @@ table.simple th {
 
 /* ---------- v2: home + schedule ---------- */
 :root {
-  --hang: #157a5a;
-  --hang-soft: rgba(21, 122, 90, 0.12);
+  --hang: #0a6db3;
+  --hang-soft: rgba(10, 109, 179, 0.12);
   --knock: #c77700;
   --knock-soft: rgba(199, 119, 0, 0.13);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --hang: #5fbf9f;
-    --hang-soft: rgba(95, 191, 159, 0.16);
+    --hang: #7cc4f5;
+    --hang-soft: rgba(124, 196, 245, 0.16);
     --knock: #f0a640;
     --knock-soft: rgba(240, 166, 64, 0.16);
   }
@@ -1152,5 +1152,5 @@ input[type="time"] {
 }
 .tile .small {
   font-size: 0.8rem;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
