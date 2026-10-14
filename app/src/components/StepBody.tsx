@@ -49,7 +49,22 @@ export function StepBody({ kind, data }: { kind: StepKind; data: AppData }) {
       ) : null;
 
     case "design":
-      return <HangerPreview data={data} />;
+      return <ExampleHanger />;
+
+    case "website":
+      return (
+        <div className="card accent small">
+          <strong>No website yet?</strong> You already have a free booking page. Your hanger&apos;s QR code opens it, and
+          requests come to you by text. <Link href="/more">See your booking page</Link>
+        </div>
+      );
+
+    case "booking":
+      return (
+        <div className="card accent small">
+          Ready-to-send texts for quotes, bookings, reminders and reviews: <Link href="/kit/texts">Text templates</Link>
+        </div>
+      );
 
     case "print":
       return <PrintCalc data={data} />;
@@ -113,40 +128,42 @@ function PriceEditor({ data }: { data: AppData }) {
   );
 }
 
-function HangerPreview({ data }: { data: AppData }) {
-  const trade = getTrade(data.profile!.trade);
+function ExampleHanger() {
   return (
     <>
-      <label className="field">
-        <span>Your one offer</span>
-        <input
-          type="text"
-          placeholder={`For example: ${trade.services[0] ?? "Service"} from $___`}
-          value={data.business.offer}
-          onChange={(e) => update((d) => void (d.business.offer = e.target.value))}
+      <div className="card">
+        <div className="kicker">A real example from Kyle, TX</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/examples/sampsons-flyer-back.jpg"
+          alt="Back of a Sampson's Window Services hanger: a blank price box, $25 off if you call this week, four reasons to choose them, and a big phone number."
+          className="example-img"
         />
-      </label>
-      <div className="card" style={{ maxWidth: 300, margin: "0 auto 14px", textAlign: "center", borderWidth: 2 }}>
-        <div className="kicker">Hanger preview</div>
-        <div
-          style={{ width: 54, height: 54, borderRadius: "50%", border: "2px dashed var(--line)", margin: "0 auto 10px" }}
-          aria-hidden
-        />
-        <div style={{ fontWeight: 800 }}>{data.business.name || "Your business name"}</div>
-        <div style={{ fontSize: "1.25rem", fontWeight: 800, margin: "10px 0" }}>{data.business.offer || "Your one offer"}</div>
-        <div className="small">We&apos;re working on your street this week</div>
-        <div style={{ fontSize: "1.5rem", fontWeight: 900, margin: "10px 0 0" }}>{data.business.phone || "(000) 000-0000"}</div>
-        <div style={{ fontWeight: 700 }}>Call or text</div>
-        <div className="small" style={{ margin: "8px 0" }}>
-          Book by Friday
-        </div>
-        <div
-          style={{ width: 70, height: 70, margin: "0 auto", border: "2px solid var(--text)", display: "grid", placeItems: "center" }}
-          className="small"
-        >
-          QR
-        </div>
+        <h3 style={{ marginTop: 12 }}>Why it works</h3>
+        <ul className="tight small">
+          <li>
+            <strong>Blank price box.</strong> You write each home&apos;s price in by hand, so it feels personal.
+          </li>
+          <li>
+            <strong>“$25 off if you call this week.”</strong> A clear reason to act now.
+          </li>
+          <li>
+            <strong>“Call now to lock in this price.”</strong> Tells them exactly what to do.
+          </li>
+          <li>
+            <strong>Four quick reasons,</strong> ending with proof: 5-star reviews.
+          </li>
+          <li>
+            <strong>Huge phone number</strong> across the bottom, easy to read from the driveway.
+          </li>
+        </ul>
+        <p className="muted small" style={{ margin: 0 }}>
+          To add: “call or text” next to the number, and a QR code. The hanger maker does both.
+        </p>
       </div>
+      <Link className="btn primary block big" href="/kit/hanger" style={{ marginBottom: 14 }}>
+        Open the door hanger maker
+      </Link>
     </>
   );
 }

@@ -19,6 +19,8 @@ export function emptyData(): AppData {
     checklists: {},
     numbers: {},
     milestonesDone: {},
+    hanger: null,
+    goal: { monthly: 10000, avgJob: null, guessTalk: null, guessQuote: null, guessClose: null },
     geocache: {},
   };
 }
