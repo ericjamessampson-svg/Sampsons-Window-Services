@@ -6,9 +6,12 @@ import { AppShell } from "@/components/AppShell";
 import { CheckMark } from "@/components/Icons";
 import { EMPTY_NUMBERS, NumbersForm, totals } from "@/components/NumbersForm";
 import { PlanList, streetsFor } from "@/components/PlanList";
+import { RainAlert } from "@/components/RainAlert";
 import { SkipGuideButton } from "@/components/SkipGuide";
+import { coachTips, sourceSplit } from "@/lib/coach";
+import { monthElapsed, monthRevenue } from "@/lib/goal";
 import { dailyChecklist, type CheckItem, type CheckSection } from "@/lib/checklist";
-import { niceDate, weekStart, workDayInfo, ymd } from "@/lib/dates";
+import { addDays, niceDate, weekStart, workDayInfo, ymd } from "@/lib/dates";
 import { homesReached, milestones } from "@/lib/milestones";
 import { roadmapSteps } from "@/lib/roadmap";
 import { GOAL_HOMES, HOMES_PER_DAY, PLAN_DAYS, planDayFor, type PlanDay } from "@/lib/samplePlan";
@@ -78,6 +81,13 @@ function Home() {
 
   const week = <WeekCard data={data} today={today} />;
   const progress = <Progress data={data} />;
+  const goal = <MonthGoal data={data} />;
+  const coach = <Coach data={data} today={today} />;
+  // Rain check: today's work if it's still morning, otherwise the next work day.
+  const rainDay =
+    info.isWorkDay && now.getHours() < 12
+      ? today
+      : workDayInfo(profile.startDate, profile.workDays, addDays(now, 1)).nextWorkDate;
 
   return (
     <>
@@ -85,8 +95,11 @@ function Home() {
         <div>
           {header}
           {next}
+          <RainAlert homeBase={profile.homeBase} nextWorkDate={rainDay} />
           {glance}
           <div className="only-phone">
+            {goal}
+            {coach}
             {week}
             {progress}
           </div>
@@ -98,6 +111,8 @@ function Home() {
           <SkipGuideButton />
         </div>
         <div className="only-desktop">
+          {goal}
+          {coach}
           {week}
           {progress}
           <div className="card">
@@ -278,6 +293,11 @@ function Glance({ data, today, hang, knock, upcoming }: { data: AppData; today: 
           Day 1: knock the streets you hung this morning.
         </p>
       )}
+      {!upcoming && (
+        <Link className="btn block" href="/knock" style={{ marginTop: 12 }}>
+          Open knock counter
+        </Link>
+      )}
       {!data.profile!.useSamplePlan && <p className="muted small" style={{ margin: "8px 0 0" }}>Sample route from Kyle, TX. Your own area comes in the next version.</p>}
     </div>
   );
@@ -311,9 +331,85 @@ function WeekCard({ data, today }: { data: AppData; today: string }) {
           </div>
         ))}
       </div>
-      <p className="muted small" style={{ margin: "8px 0 0" }}>
-        Enter sales and revenue in today&apos;s numbers each night.
+      <SourceSplit data={data} today={today} />
+    </div>
+  );
+}
+
+function SourceSplit({ data, today }: { data: AppData; today: string }) {
+  const s = sourceSplit(data, today);
+  const any = s.hanger.quotes + s.knocking.quotes + s.hanger.sales + s.knocking.sales > 0;
+  return (
+    <div style={{ marginTop: 12 }}>
+      <div className="kicker">What worked this week</div>
+      {any ? (
+        <table className="simple">
+          <thead>
+            <tr>
+              <th />
+              <th>Quotes</th>
+              <th>Sales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>From hangers (calls and texts)</td>
+              <td>{s.hanger.quotes}</td>
+              <td>{s.hanger.sales}</td>
+            </tr>
+            <tr>
+              <td>From knocking</td>
+              <td>{s.knocking.quotes}</td>
+              <td>{s.knocking.sales}</td>
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <p className="muted small" style={{ margin: 0 }}>
+          Log quotes and sales to see whether hangers or knocking brought them in.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function MonthGoal({ data }: { data: AppData }) {
+  const sold = monthRevenue(data);
+  const goal = data.goal.monthly || 10000;
+  const pct = Math.min(100, (sold / goal) * 100);
+  const onPace = sold / goal >= monthElapsed();
+  return (
+    <Link href="/goal" className="card goal-card">
+      <div className="row between" style={{ alignItems: "end" }}>
+        <div>
+          <div className="kicker">This month</div>
+          <div className="big-num">${sold.toLocaleString()}</div>
+        </div>
+        <span className="muted">of ${goal.toLocaleString()} goal</span>
+      </div>
+      <div className="bar" style={{ marginTop: 10 }}>
+        <div style={{ width: `${pct}%` }} />
+      </div>
+      <p className="muted small" style={{ margin: "6px 0 0" }}>
+        {onPace ? "On pace." : "Behind pace."} Tap to see the doors you need per day.
       </p>
+    </Link>
+  );
+}
+
+function Coach({ data, today }: { data: AppData; today: string }) {
+  const tips = coachTips(data, today);
+  return (
+    <div className="card coach">
+      <div className="kicker">Coach · from your numbers</div>
+      {tips.map((t) => (
+        <div key={t.title} style={{ marginTop: 6 }}>
+          <strong>{t.title}</strong>
+          <p className="small" style={{ margin: "2px 0 0" }}>
+            {t.body}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }

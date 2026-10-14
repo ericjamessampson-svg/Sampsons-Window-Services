@@ -4,16 +4,22 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useData } from "@/lib/store";
-import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon } from "./Icons";
+import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, ToolsIcon } from "./Icons";
 
 const NAV = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/schedule", label: "Schedule", Icon: CalendarIcon },
   { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon },
   { href: "/plan", label: "Plan", Icon: PlanIcon },
+  { href: "/more", label: "Tools", Icon: ToolsIcon },
   { href: "/numbers", label: "Numbers", Icon: NumbersIcon, desktopOnly: true },
-  { href: "/settings", label: "Settings", Icon: SettingsIcon },
+  { href: "/settings", label: "Settings", Icon: SettingsIcon, desktopOnly: true },
 ];
+
+// Pages reached from the Tools tab light up that tab.
+const TOOL_PAGES = ["/knock", "/goal", "/kit"];
+const isCurrent = (path: string, href: string) =>
+  path === href || (href === "/more" && TOOL_PAGES.some((t) => path.startsWith(t)));
 
 /** Page frame: bottom tabs on phones, a sidebar on computers. Sends new users to onboarding. */
 export function AppShell({ children, narrow }: { children: React.ReactNode; narrow?: boolean }) {
@@ -35,7 +41,7 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
           10K Homes
         </div>
         {NAV.map(({ href, label, Icon }) => (
-          <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
+          <Link key={href} href={href} aria-current={isCurrent(path, href) ? "page" : undefined}>
             <Icon />
             {label}
           </Link>
@@ -46,7 +52,7 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
       </main>
       <nav className="tabbar" aria-label="Main">
         {NAV.filter((n) => !n.desktopOnly).map(({ href, label, Icon }) => (
-          <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>
+          <Link key={href} href={href} aria-current={isCurrent(path, href) ? "page" : undefined}>
             <Icon />
             {label}
           </Link>

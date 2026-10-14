@@ -46,6 +46,35 @@ export interface DailyNumbers {
   sales: number;
   /** Dollars from sales that day. */
   revenue: number;
+  /** Of today's quotes and sales, how many came from people who called or texted off a hanger. */
+  quotesHanger: number;
+  salesHanger: number;
+}
+
+/** What goes on the printed door hanger. */
+export interface HangerDesign {
+  headline: string;
+  tagline: string;
+  services: string;
+  /** Leave empty for a blank price box you write in at the door. */
+  price: string;
+  urgency: string;
+  reasons: string;
+  proof: string;
+  social: string;
+  color: string;
+  /** Small logo image as a data URL, or null. */
+  logo: string | null;
+  showQR: boolean;
+}
+
+export interface Goal {
+  monthly: number;
+  avgJob: number | null;
+  /** The owner's own guesses, used only until they have real numbers. */
+  guessTalk: number | null; // % of doors knocked that turn into a conversation
+  guessQuote: number | null; // % of conversations that turn into a quote
+  guessClose: number | null; // % of quotes that turn into a sale
 }
 
 export interface AppData {
@@ -61,6 +90,8 @@ export interface AppData {
   numbers: Record<string, DailyNumbers>;
   /** milestone id -> date the owner marked it reached (for ones the app can't count) */
   milestonesDone: Record<string, string>;
+  hanger: HangerDesign | null;
+  goal: Goal;
   /** address -> map position (null when the address wasn't found) */
   geocache: Record<string, { lat: number; lon: number } | null>;
 }

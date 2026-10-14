@@ -22,6 +22,8 @@ const COLS: [keyof DailyNumbers, string][] = [
   ["quotes", "Quotes"],
   ["sales", "Sales"],
   ["revenue", "Revenue $"],
+  ["quotesHanger", "Quotes (hangers)"],
+  ["salesHanger", "Sales (hangers)"],
 ];
 
 function Numbers() {
