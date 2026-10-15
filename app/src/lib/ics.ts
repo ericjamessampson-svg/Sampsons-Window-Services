@@ -8,11 +8,11 @@ export function remindersIcs(workDays: number[], startDate: string): string {
   const date = startDate.replace(/-/g, "");
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
   const events = [
-    ["0815", "0830", "Load hangers and go (10K Homes)", "5 bundles of 100. Start hanging at 8:30."],
-    ["1545", "1600", "Knocking time (10K Homes)", "Knock yesterday's streets from 4 to 7pm."],
-    ["1915", "1930", "Enter today's numbers (10K Homes)", "Open 10K Homes and log today's numbers."],
+    ["0815", "0830", "Load hangers and go (Spur)", "5 bundles of 100. Start hanging at 8:30."],
+    ["1545", "1600", "Knocking time (Spur)", "Knock yesterday's streets from 4 to 7pm."],
+    ["1915", "1930", "Enter today's numbers (Spur)", "Open Spur and log today's numbers."],
   ];
-  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//10K Homes//Reminders//EN", "CALSCALE:GREGORIAN"];
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Spur//Reminders//EN", "CALSCALE:GREGORIAN"];
   events.forEach(([start, end, title, desc], i) => {
     lines.push(
       "BEGIN:VEVENT",

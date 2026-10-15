@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useData } from "@/lib/store";
-import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, ToolsIcon } from "./Icons";
+import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, TodayIcon, ToolsIcon } from "./Icons";
 
 const NAV = [
   { href: "/", label: "Home", Icon: HomeIcon },
+  { href: "/today", label: "Today", Icon: TodayIcon },
   { href: "/schedule", label: "Schedule", Icon: CalendarIcon },
-  { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon },
+  { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon, desktopOnly: true },
   { href: "/plan", label: "Plan", Icon: PlanIcon },
   { href: "/more", label: "Tools", Icon: ToolsIcon },
   { href: "/numbers", label: "Numbers", Icon: NumbersIcon, desktopOnly: true },
@@ -37,8 +38,8 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
       <nav className="sidebar" aria-label="Main">
         <div className="brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/icon-192.png" alt="" width={30} height={30} />
-          10K Homes
+          <img src="/brand/spur-mark.png" alt="" width={34} height={29} />
+          Spur
         </div>
         {NAV.map(({ href, label, Icon }) => (
           <Link key={href} href={href} aria-current={isCurrent(path, href) ? "page" : undefined}>

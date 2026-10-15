@@ -112,7 +112,7 @@ export default function BookPage() {
         )}
         {!ready && <p className="muted small">Add your name and address to send.</p>}
       </main>
-      <footer className="muted small book-foot">Made with 10K Homes</footer>
+      <footer className="muted small book-foot">Made with Spur</footer>
     </div>
   );
 }

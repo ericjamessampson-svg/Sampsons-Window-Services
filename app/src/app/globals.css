@@ -26,7 +26,7 @@
     --line: #234766;
     --text: #eef6fc;
     --muted: #a3bccf;
-    --accent: #7cc4f5;
+    --accent: #67bbf7;
     --accent-text: #04223a;
     --accent-soft: #12385a;
     --gold-soft: #3a2f10;
@@ -1544,4 +1544,24 @@ a.card.goal-card {
   .hanger:last-child {
     break-after: auto;
   }
+}
+
+/* Spur brand */
+.welcome-logo {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin: 12px auto 22px;
+}
+.today-block .today-where {
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+ol.today-steps {
+  margin: 0;
+  padding-left: 22px;
+}
+ol.today-steps li {
+  padding: 8px 0;
+  font-weight: 600;
 }

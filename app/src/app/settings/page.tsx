@@ -25,7 +25,7 @@ function Settings() {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `10k-homes-backup-${ymd(new Date())}.json`;
+    a.download = `spur-backup-${ymd(new Date())}.json`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -37,7 +37,7 @@ function Settings() {
       setData({ ...emptyData(), ...parsed });
       setMsg("Backup loaded.");
     } catch {
-      setMsg("That file isn't a 10K Homes backup.");
+      setMsg("That file isn't a Spur backup.");
     }
   }
 
