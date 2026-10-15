@@ -1,6 +1,6 @@
 # Sampson's Window Services
 
-Website for Sampson's Window Services, Kyle, TX. Intended domain: sampsonswindows.com.
+Website for Sampson's Window Services, Kyle, TX. Intended domain: sampsonswindowservices.com.
 
 A static site, no build step: `index.html`, `styles.css`, `script.js` and `images/`.
 
