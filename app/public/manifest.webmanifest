@@ -1,12 +1,12 @@
 {
-  "name": "10K Homes",
-  "short_name": "10K Homes",
-  "description": "Start your home-service business: reach 10,000 homes in your first month.",
+  "name": "Spur",
+  "short_name": "Spur",
+  "description": "Start your home-service business and reach 10,000 homes in your first month with the 10K Homes plan.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#eaf4fc",
+  "background_color": "#ffffff",
   "theme_color": "#0a6db3",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

@@ -93,6 +93,8 @@ export default function Onboarding() {
     case 0:
       body = (
         <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/spur-logo.png" alt="Spur" className="welcome-logo" />
           <h1>Let&apos;s start your business</h1>
           <p>Answer 9 quick questions. It takes about 5 minutes. Then the app tells you what to do, step by step.</p>
           <div className="card gold">

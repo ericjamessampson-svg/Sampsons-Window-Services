@@ -38,7 +38,7 @@ function More() {
     const blob = new Blob([remindersIcs(p.workDays, p.startDate)], { type: "text/calendar" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "10k-homes-reminders.ics";
+    a.download = "spur-reminders.ics";
     a.click();
     URL.revokeObjectURL(a.href);
   }

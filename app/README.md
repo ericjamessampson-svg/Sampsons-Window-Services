@@ -1,6 +1,6 @@
-# 10K Homes (app)
+# Spur (app)
 
-Helps new home-service owners start a business and reach 10,000 homes in their first month
+Spur helps new home-service owners start a business and reach 10,000 homes in their first month
 with door hangers in the morning and door knocking from 4 to 7pm.
 
 Phase 1: onboarding, launch roadmap, today screen with daily checklist and numbers, and a sample

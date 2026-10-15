@@ -37,8 +37,8 @@ export function AppShell({ children, narrow }: { children: React.ReactNode; narr
       <nav className="sidebar" aria-label="Main">
         <div className="brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/icon-192.png" alt="" width={30} height={30} />
-          10K Homes
+          <img src="/brand/spur-mark.png" alt="" width={34} height={29} />
+          Spur
         </div>
         {NAV.map(({ href, label, Icon }) => (
           <Link key={href} href={href} aria-current={isCurrent(path, href) ? "page" : undefined}>
