@@ -29,6 +29,39 @@ function HangerMaker() {
       d.hanger = { ...(d.hanger ?? defaultHanger(d)), ...patch };
     });
 
+  const [busy, setBusy] = useState(false);
+  const [pdfError, setPdfError] = useState("");
+
+  /** Builds a 2-page 4.25" x 11" PDF from the previews, the same on every phone and computer. */
+  async function downloadPdf() {
+    setBusy(true);
+    setPdfError("");
+    try {
+      const [{ toJpeg }, { jsPDF }] = await Promise.all([import("html-to-image"), import("jspdf")]);
+      const pages = Array.from(document.querySelectorAll<HTMLElement>(".hanger-previews .hanger"));
+      const pdf = new jsPDF({ unit: "in", format: [4.25, 11], orientation: "portrait", compress: true });
+      for (let i = 0; i < pages.length; i++) {
+        const img = await toJpeg(pages[i], {
+          quality: 0.95,
+          width: 408,
+          height: 1056,
+          pixelRatio: 300 / 96,
+          backgroundColor: "#ffffff",
+          style: { zoom: "1", borderRadius: "0", boxShadow: "none" },
+          filter: (n) => !(n instanceof HTMLElement && n.classList.contains("no-print")),
+        });
+        if (i > 0) pdf.addPage([4.25, 11], "portrait");
+        pdf.addImage(img, "JPEG", 0, 0, 4.25, 11);
+      }
+      const name = (data.business.name || "door-hanger").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+      pdf.save(`${name}-door-hanger.pdf`);
+    } catch {
+      setPdfError("Couldn't make the PDF on this device. Try the Print button instead, or try on a computer.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function onLogo(file: File) {
     const url = await shrinkImage(file, 300);
     set({ logo: url });
@@ -39,9 +72,16 @@ function HangerMaker() {
       <div className="hanger-form no-print">
         <h1>Door hanger maker</h1>
         <p className="muted">
-          Fill this in, then tap <strong>Print or save PDF</strong> and send the PDF to your printer. Size: 4.25&quot; × 11&quot;
+          Fill this in, then tap <strong>Download PDF for the printer</strong> and send the file to your printer. Size: 4.25&quot; × 11&quot;
           door hanger, printed on both sides.
         </p>
+        {/-git-|localhost|127\.0\.0\.1/.test(origin) && h.showQR && (
+          <div className="card gold small">
+            <strong>Heads up:</strong> you&apos;re on a test address ({origin.replace(/^https?:\/\//, "")}). The QR code
+            points to this address, which customers may not be able to open. Make your final PDF from your main app
+            address instead.
+          </div>
+        )}
         <div className="card accent small">
           <strong>We suggest 10,000 hangers to start</strong>: 500 a day for the 20 days of month 1.
         </div>
@@ -110,8 +150,11 @@ function HangerMaker() {
         </div>
 
         <div className="row wrap" style={{ marginBottom: 20 }}>
-          <button className="btn primary big" onClick={() => window.print()}>
-            Print or save PDF
+          <button className="btn primary big" disabled={busy} onClick={downloadPdf}>
+            {busy ? "Making PDF…" : "Download PDF for the printer"}
+          </button>
+          <button className="btn" onClick={() => window.print()}>
+            Print
           </button>
           <button
             className="btn"
@@ -120,9 +163,10 @@ function HangerMaker() {
             Reset to example
           </button>
         </div>
+        {pdfError && <p className="small" style={{ color: "var(--danger)" }}>{pdfError}</p>}
         <p className="muted small">
-          On iPhone: tap Print or save PDF, then pinch out on the preview and tap Share to save the PDF. On a computer, pick
-          &quot;Save as PDF&quot; as the printer.
+          The PDF is exactly 4.25&quot; × 11&quot; at print quality (300 dpi): page 1 is the front, page 2 the back. Send it
+          to your printer and ask for door hangers printed on both sides, with the hanger hole die-cut.
         </p>
       </div>
 

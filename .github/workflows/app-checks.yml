@@ -1,0 +1,35 @@
+name: App checks
+
+# Runs on every pull request and push that touches the app, so a broken
+# change shows a red X before it is merged.
+on:
+  pull_request:
+    paths: ["app/**", ".github/workflows/app-checks.yml"]
+  push:
+    branches: [main]
+    paths: ["app/**", ".github/workflows/app-checks.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - name: Type check
+        run: npm run lint
+      - name: Tests
+        run: npm test
+      - name: Build
+        run: npm run build

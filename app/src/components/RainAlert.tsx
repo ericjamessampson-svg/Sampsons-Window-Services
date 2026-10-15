@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { niceDate } from "@/lib/dates";
+import { parseHomeBase, pickPlace } from "@/lib/places";
 
 interface Forecast {
   date: string;
@@ -24,11 +25,11 @@ export function RainAlert({ homeBase, nextWorkDate }: { homeBase: string; nextWo
         if (cached?.key === cacheKey && Date.now() - cached.at < 3 * 3600_000) {
           days = cached.days;
         } else {
-          const city = homeBase.split(",")[0].trim();
+          const { city } = parseHomeBase(homeBase);
           const geo = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&countryCode=US`
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=20&countryCode=US`
           ).then((r) => r.json());
-          const place = geo?.results?.[0];
+          const place = pickPlace(homeBase, geo?.results ?? []);
           if (!place) return;
           const f = await fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&daily=precipitation_probability_max&timezone=auto&forecast_days=7`
