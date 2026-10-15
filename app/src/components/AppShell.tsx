@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useData } from "@/lib/store";
-import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, ToolsIcon } from "./Icons";
+import { CalendarIcon, HomeIcon, NumbersIcon, PlanIcon, RoadmapIcon, SettingsIcon, TodayIcon, ToolsIcon } from "./Icons";
 
 const NAV = [
   { href: "/", label: "Home", Icon: HomeIcon },
+  { href: "/today", label: "Today", Icon: TodayIcon },
   { href: "/schedule", label: "Schedule", Icon: CalendarIcon },
-  { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon },
+  { href: "/roadmap", label: "Roadmap", Icon: RoadmapIcon, desktopOnly: true },
   { href: "/plan", label: "Plan", Icon: PlanIcon },
   { href: "/more", label: "Tools", Icon: ToolsIcon },
   { href: "/numbers", label: "Numbers", Icon: NumbersIcon, desktopOnly: true },

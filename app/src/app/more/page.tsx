@@ -18,6 +18,7 @@ export default function MorePage() {
 }
 
 const TOOLS = [
+  { href: "/roadmap", title: "Roadmap", body: "Step-by-step setup for your business" },
   { href: "/knock", title: "Knock counter", body: "Big +1 buttons for knocking, 4 to 7pm" },
   { href: "/kit/hanger", title: "Door hanger maker", body: "Print-ready hanger with your QR code" },
   { href: "/goal", title: "Monthly goal", body: "From $ goal to doors per day" },
