@@ -194,7 +194,10 @@ function NextAction({
     return (
       <div className="card next-card calm">
         <div className="kicker">Do this now</div>
-        <h2>Rest up. Next is Day {((showDay - 1) % PLAN_DAYS) + 1} on {niceDate(nextWorkDate)}.</h2>
+        <h2>
+          Rest up. Next is Day {((showDay - 1) % PLAN_DAYS) + 1}
+          {showDay > PLAN_DAYS ? ` of round ${Math.floor((showDay - 1) / PLAN_DAYS) + 1}` : ""} on {niceDate(nextWorkDate)}.
+        </h2>
         <p className="small" style={{ margin: 0 }}>
           Good time to text back quotes and load hangers for next time.
         </p>
@@ -282,7 +285,10 @@ function Glance({ data, today, hang, knock, upcoming }: { data: AppData; today: 
         </>
       )}
       <hr className="sep" />
-      <div className="kicker">Knock tonight{kb ? ` · ${niceTime(kb.start)} to ${niceTime(kb.end)}` : " · 4 to 7pm"}</div>
+      <div className="kicker">
+        {upcoming ? "Next knocking" : "Knock tonight"}
+        {kb ? ` · ${niceTime(kb.start)} to ${niceTime(kb.end)}` : " · 4 to 7pm"}
+      </div>
       {knock ? (
         <>
           <strong>{knock.zone.name}</strong>
