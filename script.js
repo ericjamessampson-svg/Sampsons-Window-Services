@@ -1,7 +1,7 @@
 // Quote form: builds a text message and opens the visitor's texting app
 // addressed to the business number. No server needed.
 (function () {
-  var PHONE = "+15129473460";
+  var PHONE = "+15123312247";
 
   var form = document.getElementById("quote");
   var errorEl = document.getElementById("form-error");
@@ -28,7 +28,7 @@
   function buildMessage(data) {
     var services = data.getAll("service");
     var lines = [
-      "Hi Sampson's! I'd like a free quote.",
+      "Hi Sampsons Window Services! I'd like a free quote.",
       "Name: " + data.get("name").trim(),
       "Phone: " + data.get("phone").trim()
     ];
